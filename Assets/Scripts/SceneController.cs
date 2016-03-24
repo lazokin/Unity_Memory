@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEngine.SceneManagement;
+using UnityEngine;
 using System.Collections;
 using System;
 
@@ -58,6 +59,10 @@ public class SceneController : MonoBehaviour {
             _secondRevealed = card;
             StartCoroutine(CheckMatch());
         }
+    }
+
+    public void Restart() {
+        SceneManager.LoadScene("Main");
     }
 
     private IEnumerator CheckMatch() {
