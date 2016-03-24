@@ -11,6 +11,11 @@ public class SceneController : MonoBehaviour {
 
     [SerializeField] private MemoryCard originalCard;
     [SerializeField] private Sprite[] images;
+    [SerializeField] private TextMesh scoreLabel;
+
+    private int _score = 0;
+    private MemoryCard _firstRevealed;
+    private MemoryCard _secondRevealed;
 
 	void Start () {
 
@@ -41,6 +46,32 @@ public class SceneController : MonoBehaviour {
         }
 
 	}
+
+    public bool canReveal {
+        get { return _secondRevealed == null; }
+    }
+
+    public void CardRevealed (MemoryCard card) {
+        if (_firstRevealed == null) {
+            _firstRevealed = card;
+        } else {
+            _secondRevealed = card;
+            StartCoroutine(CheckMatch());
+        }
+    }
+
+    private IEnumerator CheckMatch() {
+        if (_firstRevealed.id == _secondRevealed.id) {
+            _score++;
+            scoreLabel.text = "Score: " + _score;
+        } else {
+            yield return new WaitForSeconds(0.5f);
+            _firstRevealed.Unreveal();
+            _secondRevealed.Unreveal();
+        }
+        _firstRevealed = null;
+        _secondRevealed = null;
+    }
 
     private int[] ShuffleArray(int[] numbers) {
         int[] newArray = numbers.Clone() as int[];

@@ -4,7 +4,7 @@ using System.Collections;
 public class MemoryCard : MonoBehaviour {
 
     [SerializeField] private GameObject cardBack;
-    [SerializeField] private SceneController conotroller;
+    [SerializeField] private SceneController controller;
 
     private int _id;
 
@@ -18,9 +18,14 @@ public class MemoryCard : MonoBehaviour {
     }
 
     public void OnMouseDown() {
-        if (cardBack.activeSelf) {
+        if (cardBack.activeSelf && controller.canReveal) {
             cardBack.SetActive(false);
+            controller.CardRevealed(this);
         }
+    }
+
+    public void Unreveal() {
+        cardBack.SetActive(true);
     }
 
 }
